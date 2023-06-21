@@ -13,6 +13,11 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -115,6 +120,28 @@ public class Main extends Application {
             calendarGridPane.add(dayOfWeek, i, 1);
             updateCalendar(calendarGridPane);
         }
+
+        updateCalendar(calendarGridPane);
+        loadFromFile();    
+        
+	
+	     // Menambahkan event handler untuk click pada item di ListView tampilanListTask
+	     tampilanListTask.setOnMouseClicked(event -> {
+	         int selectedIndex = tampilanListTask.getSelectionModel().getSelectedIndex();
+	         if (selectedIndex != -1) {
+	             Task selectedTask = calendar.getTasks().get(selectedIndex);
+	             tampilDetailTask(selectedTask);
+	         }
+	     });
+	
+	     // Menambahkan event handler untuk click pada item di ListView tampilanListEvent
+	     tampilanListEvent.setOnMouseClicked(event -> {
+	         int selectedIndex = tampilanListEvent.getSelectionModel().getSelectedIndex();
+	         if (selectedIndex != -1) {
+	             Event selectedEvent = calendar.getEvents().get(selectedIndex);
+	             tampilDetailEvent(selectedEvent);
+	         }
+	     });
     }
 
     private void updateCalendar(GridPane calendarGridPane) {
