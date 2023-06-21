@@ -73,6 +73,9 @@ public class Main extends Application {
             }
         });
 
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(e -> saveToFile());
+
         BorderPane borderPane = new BorderPane();
         HBox buttonBar = new HBox(10, removeTaskButton,completeTaskButton,removeEventButton,saveButton);
         VBox vBox = new VBox(10,taskLab, tampilanListTask,eventLab, tampilanListEvent, buttonBar);
