@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Main extends Application {
@@ -61,8 +63,81 @@ public class Main extends Application {
                 updateTampilanListTask();
             }
         });
+
+        Button removeEventButton = new Button("Remove Event");
+        removeEventButton.setOnAction(e -> {
+            int selectedIndex = tampilanListEvent.getSelectionModel().getSelectedIndex();
+            if (selectedIndex != -1) {
+                calendar.removeEvent(calendar.getEvents().get(selectedIndex));
+                updateTampilanListEvent();
+            }
+        });
+
+        BorderPane borderPane = new BorderPane();
+        HBox buttonBar = new HBox(10, removeTaskButton,completeTaskButton,removeEventButton,saveButton);
+        VBox vBox = new VBox(10,taskLab, tampilanListTask,eventLab, tampilanListEvent, buttonBar);
+        borderPane.setCenter(vBox);
+        borderPane.setPadding(new Insets(10));
+        BorderPane.setAlignment(vBox, Pos.CENTER);
     }
-    
+
+    private void updateCalendar(GridPane calendarGridPane) {
+        calendarGridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) > 1);
+
+        LocalDate firstDayOfMonth = blnThnSekarang.atDay(1);
+        int dayOfWeek = firstDayOfMonth.getDayOfWeek().getValue();
+
+        Label monthLabel = (Label) calendarGridPane.getChildren().get(1);
+        monthLabel.setText("   " + blnThnSekarang.getMonth().toString() + " " + blnThnSekarang.getYear());
+
+        int row = 2;
+        int column = dayOfWeek % 7;
+
+     
+        
+        for (int day = 1; day <= blnThnSekarang.lengthOfMonth(); day++) {
+            Button dayButton = new Button(String.valueOf(day));
+            dayButton.setPrefWidth(200);
+            dayButton.setPrefHeight(100);
+            dayButton.getStyleClass().add("day-button"); // Tambahkan kelas CSS
+
+            VBox dateBox = new VBox();
+            dateBox.setAlignment(Pos.CENTER);
+            dateBox.getChildren().add(dayButton);
+
+            LocalDate currentDate = LocalDate.of(blnThnSekarang.getYear(), blnThnSekarang.getMonth(), day);
+
+            // Tambahkan tampilanListTask hanya jika ada task pada tanggal ini
+            for (Task task : calendar.getTasks()) {
+                LocalDate taskDate = task.getTaskDate();
+                if (taskDate.equals(currentDate)) {
+                	dateBox.getChildren().add(new ListView<>(FXCollections.observableArrayList(FXCollections.singletonObservableList("Task: " + task.getTitle()))));
+                }
+            }
+
+            // Tambahkan tampilanListEvent hanya jika ada event pada tanggal ini
+            for (Event event : calendar.getEvents()) {
+                LocalDate eventDate = event.getEventDate();
+                if (eventDate.equals(currentDate)) {
+                	dateBox.getChildren().add(new ListView<>(FXCollections.observableArrayList(FXCollections.singletonObservableList("Event: " + event.getTitle()))));
+                }
+            }
+            
+            column++;
+            if (column == 7) {
+                column = 0;
+                row++;
+            }
+            
+            dayButton.setOnAction(e -> {
+            	selectedDate = currentDate;
+                tampilOpsi();
+            });
+            calendarGridPane.add(dateBox, column, row);
+        }
+    }
+
+
     private void updateTampilanListEvent() {
     	tampilanListEvent.getItems().clear();
         for (Event event : calendar.getEvents()) {
