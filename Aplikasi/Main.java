@@ -61,6 +61,15 @@ public class Main extends Application {
                 updateTampilanListTask();
             }
         });
+
+        Button removeEventButton = new Button("Remove Event");
+        removeEventButton.setOnAction(e -> {
+            int selectedIndex = tampilanListEvent.getSelectionModel().getSelectedIndex();
+            if (selectedIndex != -1) {
+                calendar.removeEvent(calendar.getEvents().get(selectedIndex));
+                updateTampilanListEvent();
+            }
+        });
     }
     
     private void updateTampilanListEvent() {
