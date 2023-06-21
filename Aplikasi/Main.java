@@ -72,6 +72,13 @@ public class Main extends Application {
                 updateTampilanListEvent();
             }
         });
+
+        BorderPane borderPane = new BorderPane();
+        HBox buttonBar = new HBox(10, removeTaskButton,completeTaskButton,removeEventButton,saveButton);
+        VBox vBox = new VBox(10,taskLab, tampilanListTask,eventLab, tampilanListEvent, buttonBar);
+        borderPane.setCenter(vBox);
+        borderPane.setPadding(new Insets(10));
+        BorderPane.setAlignment(vBox, Pos.CENTER);
     }
 
     private void updateCalendar(GridPane calendarGridPane) {
@@ -129,8 +136,8 @@ public class Main extends Application {
             calendarGridPane.add(dateBox, column, row);
         }
     }
-    
-    
+
+
     private void updateTampilanListEvent() {
     	tampilanListEvent.getItems().clear();
         for (Event event : calendar.getEvents()) {
