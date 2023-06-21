@@ -14,6 +14,8 @@ import java.util.Date;
 
 public class Main extends Application {
     private Calendar calendar;
+    private ListView<String> tampilanListTask;
+    private ListView<String> tampilanListEvent;
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -24,5 +26,11 @@ public class Main extends Application {
         Date currentDate = new Date();
         TimeZone timeZone = TimeZone.getDefault();
         calendar = new Calendar(currentDate, timeZone);
+
+        tampilanListTask = new ListView<>();
+        tampilanListTask.setPrefSize(400, 100);
+
+        tampilanListEvent = new ListView<>();
+        tampilanListEvent.setPrefSize(400, 100);
     }
 }
