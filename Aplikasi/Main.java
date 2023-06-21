@@ -79,6 +79,25 @@ public class Main extends Application {
         borderPane.setCenter(vBox);
         borderPane.setPadding(new Insets(10));
         BorderPane.setAlignment(vBox, Pos.CENTER);
+
+        GridPane calendarGridPane = new GridPane();
+        calendarGridPane.setPrefSize(800, 400);
+        calendarGridPane.setAlignment(Pos.TOP_LEFT);
+        calendarGridPane.getStyleClass().add("calendar-grid"); 
+
+        calendarGridPane.add(previousButton, 0, 0);
+        calendarGridPane.add(title, 1, 0, 5, 1);
+        calendarGridPane.add(nextButton, 3, 0);
+        
+        for (int i = 0; i < 7; i++) {
+            Label dayOfWeek = new Label();
+            GridPane.setFillWidth(dayOfWeek, true);
+            GridPane.setHgrow(dayOfWeek, javafx.scene.layout.Priority.ALWAYS);
+            dayOfWeek.setAlignment(Pos.CENTER);
+            dayOfWeek.getStyleClass().add("day-of-week-label"); // Tambahkan kelas CSS
+            calendarGridPane.add(dayOfWeek, i, 1);
+            updateCalendar(calendarGridPane);
+        }
     }
 
     private void updateCalendar(GridPane calendarGridPane) {
