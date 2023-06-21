@@ -1,25 +1,17 @@
 package Aplikasi;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.Date;
 
 public class Calendar {
-    private Date date;
     private List<Task> tasks;
     private List<Event> events;
-    private TimeZone timeZone;
-
+    
     public Calendar(Date date, TimeZone timeZone) {
-        this.date = date;
         this.tasks = new ArrayList<>();
         this.events = new ArrayList<>();
-        this.timeZone = timeZone;
     }
 
     public void addEvent(Event event) {
@@ -44,14 +36,6 @@ public class Calendar {
 
     public List<Task> getTasks() {
         return tasks;
-    }
-    
-    public Date getDate( ) {
-    	return date;
-    }
-    
-    public TimeZone getTimeZone() {
-        return timeZone;
     }
     
     
