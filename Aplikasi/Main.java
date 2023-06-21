@@ -174,6 +174,30 @@ public class Main extends Application {
         }
         
     }
+
+    private void tampilOpsi() {
+        Stage dialogStage2 = new Stage();
+        dialogStage2.setTitle("Add Event/Task");
+
+        Label pilLabel = new Label("			Tambah Event/Task");
+        Button addTask = new Button("Add Task");
+        Button addEvent = new Button("Add Event");
+
+        addTask.setOnAction(e -> {tampilAddTask(); dialogStage2.close();});
+        addEvent.setOnAction(e -> {tampilAddEvent(); dialogStage2.close();});
+
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.addRow(0, pilLabel);
+        gridPane.addRow(1, addTask, addEvent);
+        gridPane.setPadding(new Insets(10));
+
+        // Set up the scene
+        Scene scene = new Scene(gridPane);
+        dialogStage2.setScene(scene);
+        dialogStage2.show();
+    }
 }
 
 
