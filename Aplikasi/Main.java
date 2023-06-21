@@ -62,4 +62,26 @@ public class Main extends Application {
             }
         });
     }
+    
+    private void updateTampilanListEvent() {
+    	tampilanListEvent.getItems().clear();
+        for (Event event : calendar.getEvents()) {
+            String eventString = "Event: " + event.getTitle() + "\n";
+            tampilanListEvent.getItems().add(eventString);
+        }
+    }
+    
+    private void updateTampilanListTask() {
+    	tampilanListTask.getItems().clear();
+        for (Task task : calendar.getTasks()) {
+            String taskString = "Task: " + task.getTitle() + "\n";
+            tampilanListTask.getItems().add(taskString);
+
+        }
+        
+    }
 }
+
+
+
+

@@ -7,14 +7,13 @@ import javafx.scene.control.Alert;
 
 
 public class Reminder {
-
+	
 	private static void showAlert(String title, String message) {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-
     }
 	
 	public static void tampilEventMendatang(Calendar calendar) {
@@ -33,7 +32,7 @@ public class Reminder {
         }
 
         if (upcomingEvents.isEmpty()) {
-            showAlert("Tidak ada Event Mendatang", "Tidak ada Event Mendatang dalam 24 jam.");
+            showAlert("No Upcoming Events", "There are no upcoming events within the next 24 hours.");
         } else {
             StringBuilder eventStringBuilder = new StringBuilder();
 
@@ -47,11 +46,12 @@ public class Reminder {
             }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Event Mendatang");
+            alert.setTitle("Upcoming Events");
             alert.setHeaderText(null);
             alert.setContentText(eventStringBuilder.toString());
             alert.showAndWait();
         }
     }
 
+	
 }
