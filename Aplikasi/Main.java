@@ -79,6 +79,25 @@ public class Main extends Application {
         borderPane.setCenter(vBox);
         borderPane.setPadding(new Insets(10));
         BorderPane.setAlignment(vBox, Pos.CENTER);
+
+        GridPane calendarGridPane = new GridPane();
+        calendarGridPane.setPrefSize(800, 400);
+        calendarGridPane.setAlignment(Pos.TOP_LEFT);
+        calendarGridPane.getStyleClass().add("calendar-grid"); 
+
+        calendarGridPane.add(previousButton, 0, 0);
+        calendarGridPane.add(title, 1, 0, 5, 1);
+        calendarGridPane.add(nextButton, 3, 0);
+        
+        for (int i = 0; i < 7; i++) {
+            Label dayOfWeek = new Label();
+            GridPane.setFillWidth(dayOfWeek, true);
+            GridPane.setHgrow(dayOfWeek, javafx.scene.layout.Priority.ALWAYS);
+            dayOfWeek.setAlignment(Pos.CENTER);
+            dayOfWeek.getStyleClass().add("day-of-week-label"); // Tambahkan kelas CSS
+            calendarGridPane.add(dayOfWeek, i, 1);
+            updateCalendar(calendarGridPane);
+        }
     }
 
     private void updateCalendar(GridPane calendarGridPane) {
@@ -154,6 +173,30 @@ public class Main extends Application {
 
         }
         
+    }
+
+    private void tampilOpsi() {
+        Stage dialogStage2 = new Stage();
+        dialogStage2.setTitle("Add Event/Task");
+
+        Label pilLabel = new Label("			Tambah Event/Task");
+        Button addTask = new Button("Add Task");
+        Button addEvent = new Button("Add Event");
+
+        addTask.setOnAction(e -> {tampilAddTask(); dialogStage2.close();});
+        addEvent.setOnAction(e -> {tampilAddEvent(); dialogStage2.close();});
+
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.addRow(0, pilLabel);
+        gridPane.addRow(1, addTask, addEvent);
+        gridPane.setPadding(new Insets(10));
+
+        // Set up the scene
+        Scene scene = new Scene(gridPane);
+        dialogStage2.setScene(scene);
+        dialogStage2.show();
     }
 }
 
