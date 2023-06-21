@@ -1,18 +1,6 @@
 package Aplikasi;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.stage.StageStyle;
 
 public class Reminder {
     private Timer timer;
@@ -21,40 +9,105 @@ public class Reminder {
         timer = new Timer(); 
     }
 
-    public void setReminder(Event event) {
-        Date startDate = event.getStartDate();
-        LocalDateTime startDateTime = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        LocalDateTime reminderDateTime = startDateTime.minusDays(1);
+    private static void showAlert(String title, String message) {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
-        TimerTask reminderTask = new TimerTask() {
-            @Override
-            public void run() {
-                showReminder(event);
+    public static void tampilEventMendatang(Calendar calendar) {
+        ObservableList<Event> upcomingEvents = FXCollections.observableArrayList();
+
+        for (Event event : calendar.getEvents()) {
+            Date eventStartDate = event.getStartDate();
+            Date currentDate = new Date();
+
+            long timeDifference = eventStartDate.getTime() - currentDate.getTime();
+            long hoursDifference = timeDifference / (60 * 60 * 1000);
+
+            if (hoursDifference < 24) {
+                upcomingEvents.add(event);
             }
-        };
+        }
 
-        timer.schedule(reminderTask, Date.from(reminderDateTime.atZone(ZoneId.systemDefault()).toInstant()));
-    }
+        if (upcomingEvents.isEmpty()) {
+            showAlert("No Upcoming Events", "There are no upcoming events within the next 24 hours.");
+        } else {
+            StringBuilder eventStringBuilder = new StringBuilder();
 
-    private void showReminder(Event event) {
-        Platform.runLater(() -> {
+            for (Event event : upcomingEvents) {
+                eventStringBuilder.append("Event: ").append(event.getTitle()).append("\n")
+                        .append("Start Date: ").append(event.getStartDate()).append("\n")
+                        .append("End Date: ").append(event.getEndDate()).append("\n")
+                        .append("Priority: ").append(event.getPriority()).append("\n")
+                        .append("Location: ").append(event.getLocation()).append("\n")
+                        .append("===================").append("\n");
+            }
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.initStyle(StageStyle.UTILITY);
-            alert.setTitle("Reminder");
+            alert.setTitle("Upcoming Events");
             alert.setHeaderText(null);
-            alert.setContentText("Event '" + event.getTitle() + "' is tomorrow!");
-
-            // Customize the alert dialog
-            Label label = new Label("Reminder");
-            label.setStyle("-fx-font-weight: bold; -fx-font-size: 14pt;");
-            VBox vbox = new VBox(label, new Label("Event: " + event.getTitle()));
-            vbox.setAlignment(Pos.CENTER_LEFT);
-            vbox.setSpacing(10);
-            alert.getDialogPane().setContent(vbox);
-
+            alert.setContentText(eventStringBuilder.toString());
             alert.showAndWait();
-        });
+        }
     }
 
 
+=======
+import java.util.Date;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+
+
+public class Reminder {
+	
+	private static void showAlert(String title, String message) {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+	
+	public static void tampilEventMendatang(Calendar calendar) {
+        ObservableList<Event> upcomingEvents = FXCollections.observableArrayList();
+
+        for (Event event : calendar.getEvents()) {
+            Date eventStartDate = event.getStartDate();
+            Date currentDate = new Date();
+
+            long timeDifference = eventStartDate.getTime() - currentDate.getTime();
+            long hoursDifference = timeDifference / (60 * 60 * 1000);
+
+            if (hoursDifference < 24) {
+                upcomingEvents.add(event);
+            }
+        }
+
+        if (upcomingEvents.isEmpty()) {
+            showAlert("No Upcoming Events", "There are no upcoming events within the next 24 hours.");
+        } else {
+            StringBuilder eventStringBuilder = new StringBuilder();
+
+            for (Event event : upcomingEvents) {
+                eventStringBuilder.append("Event: ").append(event.getTitle()).append("\n")
+                        .append("Start Date: ").append(event.getStartDate()).append("\n")
+                        .append("End Date: ").append(event.getEndDate()).append("\n")
+                        .append("Priority: ").append(event.getPriority()).append("\n")
+                        .append("Location: ").append(event.getLocation()).append("\n")
+                        .append("===================").append("\n");
+            }
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Upcoming Events");
+            alert.setHeaderText(null);
+            alert.setContentText(eventStringBuilder.toString());
+            alert.showAndWait();
+        }
+    }
+
+	
 }
