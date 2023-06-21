@@ -156,6 +156,32 @@ public class Main extends Application {
         }
     }
 
+    private void tampilDetail(Task task) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Task Details");
+        alert.setHeaderText(null);
+        alert.setContentText("Task for: " + task.getTaskDate() + "\n"+
+        		"Title: " + task.getTitle() + "\n" +
+                "Due Date: " + task.getDueDate() + "\n" +
+                "Priority: "+ task.getPriority()+"\n" +
+                "Status: " + (task.isStatusComplete() ? "Completed" : "Incomplete"));
+                        
+        alert.showAndWait();
+    }
+
+    private void tampilDetail(Event event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Event Details");
+        alert.setHeaderText(null);
+        alert.setContentText("Event for: " + event.getEventDate() + "\n"+
+        		"Title: " + event.getTitle() + "\n" +
+                "Start Date: " + event.getStartDate() + "\n" +
+                "End Date: " + event.getEndDate() + "\n" +
+                "Priority: "+ event.getPriority()+"\n"+
+                "Location: " + event.getLocation());
+                
+        alert.showAndWait();
+    }
 
     private void updateTampilanListEvent() {
     	tampilanListEvent.getItems().clear();
