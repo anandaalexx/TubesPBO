@@ -142,6 +142,16 @@ public class Main extends Application {
 	             tampilDetailEvent(selectedEvent);
 	         }
 	     });
+
+        updateCalendar(calendarGridPane);
+        Scene scene = new Scene(new VBox(calendarGridPane, borderPane));
+        scene.getStylesheets().add(getClass().getResource("calendar.css").toExternalForm()); // Tambahkan file CSS eksternal
+        primaryStage.setOnCloseRequest(event -> {
+            saveToFile();
+        });
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        Reminder.tampilEventMendatang(calendar);
     }
 
     private void updateCalendar(GridPane calendarGridPane) {
