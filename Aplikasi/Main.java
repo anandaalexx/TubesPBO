@@ -446,6 +446,11 @@ public class Main extends Application {
         }
     }
 
+    private void loadFromFile(){
+        loadTasksFromFile();
+        loadEventsFromFile();
+    }
+
     private void loadEventsFromFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader("events.txt"))) {
             String line;
