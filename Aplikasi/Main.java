@@ -198,6 +198,112 @@ public class Main extends Application {
         dialogStage2.setScene(scene);
         dialogStage2.show();
     }
+
+    private void tampilAddTask() {
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Add Task");
+
+        // Initialize GUI components
+        Label titleLabel = new Label("Task For "+selectedDate+":");
+        TextField titleTextField = new TextField();
+        Label dueDateLabel = new Label("Due Date:");
+        DatePicker dueDatePicker = new DatePicker();
+        Label prioLabel = new Label ("Prioritas:");
+        TextField prioTextField = new TextField();
+        
+        Button addButton = new Button("Add");
+        
+        addButton.setOnAction(e -> {
+            String title = titleTextField.getText();
+            String priority = prioTextField.getText();
+            LocalDate taskDate = selectedDate;
+            if (!title.isEmpty() && dueDatePicker.getValue() != null) {
+                Date dueDate = java.sql.Date.valueOf(dueDatePicker.getValue());
+                
+				Task newTask = new Task(title, dueDate,taskDate,priority);
+                calendar.addTask(newTask);
+                updateTampilanListTask();
+                dialogStage.close();
+            } else {
+                showAlert("Error", "Please enter a title and due date.");
+            }
+        });
+
+        // Create the layout
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.addRow(0, titleLabel, titleTextField);
+        gridPane.addRow(1, prioLabel,prioTextField);
+        gridPane.addRow(2, dueDateLabel, dueDatePicker);
+        gridPane.add(addButton, 1, 3);
+        gridPane.setPadding(new Insets(10));
+
+        // Set up the scene
+        Scene scene = new Scene(gridPane);
+        dialogStage.setScene(scene);
+        dialogStage.setWidth(340);
+        dialogStage.show();
+    }
+        
+	private void tampilAddEvent() {
+        Stage dialogStage1 = new Stage();
+        dialogStage1.setHeight(260);
+        dialogStage1.setWidth(250);
+        dialogStage1.setTitle("Add Event");
+        
+        Label eventLabel = new Label("Event For "+selectedDate+":");
+        TextField eventTextField = new TextField();
+        Label startDateLabel = new Label("Start Date:");
+        DatePicker startDatePicker = new DatePicker();
+        Label endDateLabel = new Label("End Date:");
+        DatePicker endDatePicker = new DatePicker();
+        Label locLabel = new Label("Location:");
+        TextField locTextField = new TextField();
+        Label prioLabel = new Label ("Prioritas:");
+        TextField prioTextField = new TextField();
+        Button addButton = new Button("Add");
+        
+
+        // Set the action for Add button
+        addButton.setOnAction(e -> {
+            String title = eventTextField.getText();
+            String location = locTextField.getText();
+            String priority = prioTextField.getText();
+            if (!title.isEmpty() && startDatePicker.getValue() != null && endDatePicker.getValue() != null && !location.isEmpty()) {
+                Date startDate = java.sql.Date.valueOf(startDatePicker.getValue());
+                Date endDate = java.sql.Date.valueOf(endDatePicker.getValue());
+                
+                LocalDate eventDate = selectedDate;
+                Event newEvent = new Event(title, startDate, endDate, location, eventDate,priority);
+                calendar.addEvent(newEvent);
+                
+                updateTampilanListEvent();
+                dialogStage1.close();
+            }
+        });
+
+        // Create the layout
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.addRow(0, eventLabel, eventTextField);
+        gridPane.addRow(1, startDateLabel, startDatePicker);
+        gridPane.addRow(2, endDateLabel, endDatePicker);
+        gridPane.addRow(3, prioLabel,prioTextField);
+        gridPane.addRow(4, locLabel, locTextField);
+        
+        gridPane.add(addButton, 1,5 );
+        gridPane.setPadding(new Insets(10));
+
+        // Set up the scene
+        Scene scene = new Scene(gridPane);
+        dialogStage1.setScene(scene);
+        dialogStage1.setWidth(345);
+        dialogStage1.show();
+    }
+
+
 }
 
 
