@@ -2,6 +2,8 @@ package Aplikasi;
 
 import java.util.TimeZone;
 
+import javax.swing.text.html.ListView;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -37,5 +39,27 @@ public class Main extends Application {
         GridPane.setColumnSpan(title, 7);
         title.setAlignment(Pos.CENTER);
         title.getStyleClass().add("title-label");
+
+        Label taskLab = new Label("Task: ");
+        Label eventLab = new Label("Event: ");
+        
+        Button removeTaskButton = new Button("Remove Task");
+        removeTaskButton.setOnAction(e -> {
+            int selectedIndex = tampilanListTask.getSelectionModel().getSelectedIndex();
+            if (selectedIndex != -1) {
+                calendar.removeTask(calendar.getTasks().get(selectedIndex));
+                updateTampilanListTask();
+            }
+        });
+                
+        Button completeTaskButton = new Button("Complete Task");
+        completeTaskButton.setOnAction(e -> {
+            int selectedIndex = tampilanListTask.getSelectionModel().getSelectedIndex();
+            if (selectedIndex != -1) {
+                Task selectedTask = calendar.getTasks().get(selectedIndex);
+                selectedTask.setEndTask(true);
+                updateTampilanListTask();
+            }
+        });
     }
 }
