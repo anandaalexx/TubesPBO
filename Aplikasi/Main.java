@@ -80,6 +80,20 @@ public class Main extends Application {
         borderPane.setPadding(new Insets(10));
         BorderPane.setAlignment(vBox, Pos.CENTER);
 
+        Button previousButton = new Button("<<");
+        previousButton.getStyleClass().add("navigation-button"); // Tambahkan kelas CSS
+        previousButton.setOnAction(event -> {
+            blnThnSekarang = blnThnSekarang.minusMonths(1);
+            updateCalendar(calendarGridPane);
+        });
+
+        Button nextButton = new Button(">>");
+        nextButton.getStyleClass().add("navigation-button"); // Tambahkan kelas CSS
+        nextButton.setOnAction(event -> {
+            blnThnSekarang = blnThnSekarang.plusMonths(1);
+            updateCalendar(calendarGridPane);
+        });
+
         GridPane calendarGridPane = new GridPane();
         calendarGridPane.setPrefSize(800, 400);
         calendarGridPane.setAlignment(Pos.TOP_LEFT);
