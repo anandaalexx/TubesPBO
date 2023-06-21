@@ -383,6 +383,77 @@ public class Main extends Application {
         
     }
 
+    private void loadTasksFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("tasks.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+            	if (line.startsWith("Task For:")) {
+            		String[] taskInfo = line.split(": ");
+            	    if (taskInfo.length == 2) {
+            	        LocalDate taskDate = LocalDate.parse(taskInfo[1].trim());
+            	    
+            		
+            		line = reader.readLine();
+	                String title = line.split(": ")[1];
+	                line = reader.readLine();
+	                String dueDateString = line.split(": ")[1];
+	                line = reader.readLine();
+	                String priority = line.split(": ")[1];
+	                line = reader.readLine();
+	                String statusString = line.split(": ")[1];
+	                
+	                
+	
+	                Date dueDate = java.sql.Date.valueOf(dueDateString);
+	                boolean statusComplete = statusString.equals("Completed");
+	
+	                Task task = new Task(title, dueDate,taskDate,priority);
+	                task.setEndTask(statusComplete);
+	                calendar.addTask(task);
+            	    }	
+            	}
+            }
+            updateTampilanListTask();
+        } catch (IOException e) {
+            showAlert("Error", "Failed to load tasks from file.");
+        }
+    }
+
+    private void loadEventsFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("events.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+            	if (line.startsWith("Event For:")) {
+            		String[] eventInfo = line.split(": ");
+            		if (eventInfo.length == 2) {
+            			LocalDate eventDate = LocalDate.parse(eventInfo[1].trim());
+            			
+            		line = reader.readLine();
+	                String title = line.split(": ")[1];
+	                line = reader.readLine();
+	                String startDateString = line.split(": ")[1];
+	                line = reader.readLine();
+	                String endDateString = line.split(": ")[1];
+	                line = reader.readLine();
+	                String priority = line.split(": ")[1];
+	                line = reader.readLine();
+	                String location = line.split(": ")[1];
+	               
+	
+	                Date startDate = java.sql.Date.valueOf(startDateString);
+	                Date endDate = java.sql.Date.valueOf(endDateString);
+	
+	                Event event = new Event(title, startDate, endDate, location, eventDate,priority);
+	                calendar.addEvent(event);
+            		}
+            	}
+            }
+            updateTampilanListEvent();
+        } catch (IOException e) {
+            showAlert("Error", "Failed to load events from file.");
+        }
+    }
+
 
 }
 
