@@ -343,6 +343,43 @@ public class Main extends Application {
         dialogStage1.show();
     }
 
+    private void saveToFile() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("tasks.txt"))) {
+            for (Task task : calendar.getTasks()) {
+                String taskString = "Task For: " + task.getTaskDate() + "\n"+
+                		"Title: " + task.getTitle() + "\n" +
+                        "Due Date: " + task.getDueDate() + "\n" +
+                		"Prioritas: "+task.getPriority()+"\n"+
+                        "Status: " + (task.isStatusComplete() ? "Completed" : "Incomplete") + "\n" +
+                        "----------------------";
+                writer.write(taskString);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            showAlert("Error", "Failed to save tasks to file.");
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("events.txt"))) {
+            for (Event event : calendar.getEvents()) {
+                String eventString = "Event For: " +event.getEventDate()+ "\n" +
+                		"Title: " + event.getTitle() + "\n" +
+                        "Start Date: " + event.getStartDate() + "\n" +
+                        "End Date: " + event.getEndDate() + "\n" +
+                        "Prioritas: "+event.getPriority()+"\n"+
+                        "Location: " + event.getLocation()+ "\n"+
+                        "----------------------";
+                writer.write(eventString);
+                writer.newLine();
+
+            }
+
+        } catch (IOException e) {
+            showAlert("Error", "Failed to save events to file.");
+        }
+        showAlert("Success", "Event and Task have been saved to events.txt and tasks.txt");
+        
+    }
+
 
 }
 
