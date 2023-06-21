@@ -1,51 +1,58 @@
 package Aplikasi;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.StageStyle;
 
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
+public class Reminder {
+    private Timer timer;
 
-public class Task extends Schedule {
-	private LocalDate taskDate;
-    private Date dueDate;
-    private boolean statusComplete;
-
-    public Task(String title,Date dueDate, LocalDate taskDate,String priority) {
-        setTitle(title);
-        setPriority(priority);
-        this.taskDate = taskDate;
-        this.dueDate = dueDate;
-        this.statusComplete = false;
-    }
-    public LocalDate getTaskDate() {
-		return taskDate;
-	}
-
-    public Date getDueDate() {
-        return dueDate;
+    public Reminder() {
+        timer = new Timer();
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setReminder(Event event) {
+        Date startDate = event.getStartDate();
+        LocalDateTime startDateTime = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime reminderDateTime = startDateTime.minusDays(1);
+
+        TimerTask reminderTask = new TimerTask() {
+            @Override
+            public void run() {
+                showReminder(event);
+            }
+        };
+
+        timer.schedule(reminderTask, Date.from(reminderDateTime.atZone(ZoneId.systemDefault()).toInstant()));
     }
 
-    public boolean isStatusComplete() {
-        return statusComplete;
+    private void showReminder(Event event) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Reminder");
+            alert.setHeaderText(null);
+            alert.setContentText("Event '" + event.getTitle() + "' is tomorrow!");
+
+            // Customize the alert dialog
+            Label label = new Label("Reminder");
+            label.setStyle("-fx-font-weight: bold; -fx-font-size: 14pt;");
+            VBox vbox = new VBox(label, new Label("Event: " + event.getTitle()));
+            vbox.setAlignment(Pos.CENTER_LEFT);
+            vbox.setSpacing(10);
+            alert.getDialogPane().setContent(vbox);
+
+            alert.showAndWait();
+        });
     }
 
-    public void setEndTask(boolean completed) {
-        this.statusComplete = completed;
-    }
-    
-   
-    
-    public void status() {
-        System.out.println("Task: " + getTitle());
-        System.out.println("Due Date: " + dueDate);
-        System.out.println("Status: " + (statusComplete ? "Completed" : "Incomplete"));
-    }
 
-	
 }
-
