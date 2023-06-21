@@ -32,5 +32,10 @@ public class Main extends Application {
 
         tampilanListEvent = new ListView<>();
         tampilanListEvent.setPrefSize(400, 100);
+
+        Label title = new Label();
+        GridPane.setColumnSpan(title, 7);
+        title.setAlignment(Pos.CENTER);
+        title.getStyleClass().add("title-label");
     }
 }
