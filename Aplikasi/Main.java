@@ -23,11 +23,15 @@ public class Main extends Application {
     private Calendar calendar;
     private ListView<String> tampilanListTask;
     private ListView<String> tampilanListEvent;
+    private YearMonth blnThnSekarang;
+    private LocalDate selectedDate;
     public static void main(String[] args) {
         Application.launch(args);
     }
 
     public void start(Stage primaryStage) {
+
+        blnThnSekarang = YearMonth.now();
         
         primaryStage.setTitle("Sistem Informasi Penjadwalan dan Task Manajemen");
         Date currentDate = new Date();
