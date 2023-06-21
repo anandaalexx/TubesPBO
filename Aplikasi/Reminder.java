@@ -18,7 +18,7 @@ public class Reminder {
     private Timer timer;
 
     public Reminder() {
-        timer = new Timer();
+        timer = new Timer(); 
     }
 
     public void setReminder(Event event) {
